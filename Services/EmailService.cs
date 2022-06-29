@@ -1,4 +1,6 @@
-﻿using AspNet_Api_EfCore.Interfaces;
+﻿using AspNet_Api_EfCore.Configurations;
+using AspNet_Api_EfCore.Interfaces;
+using AspNet_Api_EfCore.ValueObject;
 using System.Net;
 using System.Net.Mail;
 
@@ -15,9 +17,12 @@ namespace AspNet_Api_EfCore.Services
                 string fromName = "Equipe Teste",
                 string fromEmail = "teste@teste.com.br")
         {
-            var smtpClient = new SmtpClient(Configuration.Smtp.Host, Configuration.Smtp.Port);
 
-            smtpClient.Credentials = new NetworkCredential(Configuration.Smtp.UserName, Configuration.Smtp.Password);
+            SmtpConfiguration smtpConfiguration = AppSettingsConfig.Configuration.GetSection("SmtpConfiguration").Get<SmtpConfiguration>();
+
+            var smtpClient = new SmtpClient(smtpConfiguration.Host, smtpConfiguration.Port);
+
+            smtpClient.Credentials = new NetworkCredential(smtpConfiguration.UserName, smtpConfiguration.Password);
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.EnableSsl = true;
             var mail = new MailMessage();
