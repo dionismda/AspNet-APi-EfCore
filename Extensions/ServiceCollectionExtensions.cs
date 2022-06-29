@@ -26,7 +26,8 @@ namespace AspNet_Api_EfCore.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<ITokenServices, TokenServices>();
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IEmailService, EmailService>();
             return services;
         }
 

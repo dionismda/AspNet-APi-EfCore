@@ -10,10 +10,10 @@ using System.Text;
 
 namespace AspNet_Api_EfCore.Services
 {
-    public class TokenServices : ITokenServices
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
-        public TokenServices(IConfiguration configuration)
+        public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
         }

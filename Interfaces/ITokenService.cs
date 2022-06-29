@@ -2,7 +2,7 @@
 
 namespace AspNet_Api_EfCore.Interfaces
 {
-    public interface ITokenServices
+    public interface ITokenService
     {
         string GenerateToken(User user);
     }

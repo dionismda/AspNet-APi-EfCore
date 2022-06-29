@@ -14,15 +14,18 @@ namespace AspNet_Api_EfCore.Handlers
 
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
-        private readonly ITokenServices _tokenServices;
+        private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
 
         public AccountHandler(IUserRepository userRepository,
                               IPasswordHasher<User> passwordHasher,
-                              ITokenServices tokenServices)
+                              ITokenService tokenService,
+                              IEmailService emailService)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
-            _tokenServices = tokenServices;
+            _tokenService = tokenService;
+            _emailService = emailService;
         }
 
         public async Task<Token> Handle(LoginAccountCommand request)
@@ -41,7 +44,7 @@ namespace AspNet_Api_EfCore.Handlers
 
             return new Token
             {
-                token = _tokenServices.GenerateToken(user)
+                token = _tokenService.GenerateToken(user)
             };
         }
 
@@ -58,6 +61,8 @@ namespace AspNet_Api_EfCore.Handlers
             };
 
             User user = await _userRepository.Add(newUser);
+
+            _emailService.Send(user.Name, user.Email, "Bem vindo", "Bem vindo ao blog");
 
             return user;
         }
