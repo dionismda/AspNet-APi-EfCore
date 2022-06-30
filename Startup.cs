@@ -5,7 +5,10 @@ using AspNet_Api_EfCore.Services;
 using AspNet_Api_EfCore.Services.Interfaces;
 using AspNet_Api_EfCore.ValueObjects;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -25,14 +28,17 @@ namespace AspNet_Api_EfCore
             JWTSettings jwtSettings = AppSettingsConfig.Configuration.GetSection("JWTSettings").Get<JWTSettings>();
             byte[] key = Encoding.ASCII.GetBytes(jwtSettings.JwtKey);
 
-            services.AddAuthentication(opt => {
+            services.AddAuthentication(opt =>
+            {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer(opt => {
+            }).AddJwtBearer(opt =>
+            {
                 opt.RequireHttpsMetadata = false;
                 opt.SaveToken = true;
-                opt.TokenValidationParameters = new TokenValidationParameters {
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
@@ -41,10 +47,12 @@ namespace AspNet_Api_EfCore
             });
 
             services.AddControllers()
-                    .ConfigureApiBehaviorOptions(opt => {
+                    .ConfigureApiBehaviorOptions(opt =>
+                    {
                         opt.SuppressModelStateInvalidFilter = true;
                     })
-                    .AddJsonOptions(opt => {
+                    .AddJsonOptions(opt =>
+                    {
                         opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                         opt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
                     });
@@ -58,9 +66,25 @@ namespace AspNet_Api_EfCore
             services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
 
             services.AddMemoryCache();
-            services.AddDbContext<BlogDataContext>();
+            services.AddResponseCompression(opt =>
+            {
+                opt.Providers.Add<GzipCompressionProvider>();
+            });
+            services.Configure<GzipCompressionProviderOptions>(opt =>
+            {
+                opt.Level = CompressionLevel.Optimal;
+            });
+
+            string connectionString = AppSettingsConfig.Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<BlogDataContext>(opt =>
+            {
+                opt.UseSqlServer(connectionString);
+            });
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -68,7 +92,11 @@ namespace AspNet_Api_EfCore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -80,6 +108,7 @@ namespace AspNet_Api_EfCore
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseResponseCompression();
             app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>

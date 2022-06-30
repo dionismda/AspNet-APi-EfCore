@@ -1,5 +1,4 @@
 ﻿using AspNet_Api_EfCore.Handlers;
-using AspNet_Api_EfCore.Interfaces;
 using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.Repositories;
 using AspNet_Api_EfCore.Repositories.Interfaces;

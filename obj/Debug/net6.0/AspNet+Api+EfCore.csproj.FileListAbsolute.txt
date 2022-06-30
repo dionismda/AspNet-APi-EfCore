@@ -58,3 +58,8 @@ F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\ref\AspNet+Api+EfCore.dll
 F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\AspNet+Api+EfCore.pdb
 F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\AspNet+Api+EfCore.genruntimeconfig.cache
 F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\AspNet+Api+EfCore.csproj.AssemblyReference.cache
+F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\Microsoft.OpenApi.dll
+F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\AspNet+Api+EfCore.MvcApplicationPartsAssemblyInfo.cs

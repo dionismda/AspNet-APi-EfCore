@@ -1,7 +1,6 @@
 ﻿using AspNet_Api_EfCore.Extensions;
 using AspNet_Api_EfCore.Features.AccountFeatures.Commands;
 using AspNet_Api_EfCore.Handlers;
-using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.ValueObjects;
 using AspNet_Api_EfCore.ViewModels;
 using AspNet_Api_EfCore.ViewModels.Accounts;
