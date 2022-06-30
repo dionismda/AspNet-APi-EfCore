@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "x7Ls6EPjaIuhXIgobLws5PakdTMnBD1kO54CO3hQu18=",
+  "Hash": "z36LQBEdlT9O6M/I3V8wL2yCYXYknJsD5z3NGmIeEAo=",
   "Source": "AspNet+Api+EfCore",
   "BasePath": "_content/AspNet+Api+EfCore",
   "Mode": "Default",
@@ -15,23 +15,5 @@
       "Pattern": "**"
     }
   ],
-  "Assets": [
-    {
-      "Identity": "F:\\Balta\\AspNet+Api+EfCore\\wwwroot\\Images\\aafb10ae-fc94-42f1-817f-851d6f20069f.jpg",
-      "SourceId": "AspNet+Api+EfCore",
-      "SourceType": "Discovered",
-      "ContentRoot": "F:\\Balta\\AspNet+Api+EfCore\\wwwroot\\",
-      "BasePath": "_content/AspNet+Api+EfCore",
-      "RelativePath": "Images/aafb10ae-fc94-42f1-817f-851d6f20069f.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Images\\aafb10ae-fc94-42f1-817f-851d6f20069f.jpg"
-    }
-  ]
+  "Assets": []
 }

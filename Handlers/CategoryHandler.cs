@@ -4,6 +4,7 @@ using AspNet_Api_EfCore.Interfaces;
 using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.Repositories.Interfaces;
 using AspNet_Api_EfCore.ValueObjects;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AspNet_Api_EfCore.Handlers
 {
@@ -16,15 +17,22 @@ namespace AspNet_Api_EfCore.Handlers
     {
 
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IMemoryCache _memoryCache;
 
-        public CategoryHandler(ICategoryRepository categoryRepository)
+        public CategoryHandler(ICategoryRepository categoryRepository, IMemoryCache memoryCache)
         {
             _categoryRepository = categoryRepository;
+            _memoryCache = memoryCache;
         }
 
         public async Task<IEnumerable<Category>> Handle(GetAllCategoryQuery request)
         {
-            return await _categoryRepository.GetAll();
+            return await _memoryCache.GetOrCreateAsync<IEnumerable<Category>>("CategoriesCache", async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+                return await _categoryRepository.GetAll();
+            });
+
         }
 
         public async Task<Category> Handle(GetCategoryQuery request)

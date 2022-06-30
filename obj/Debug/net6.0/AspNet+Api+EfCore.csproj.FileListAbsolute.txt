@@ -57,3 +57,4 @@ F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\AspNet+Api+EfCore.dll
 F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\ref\AspNet+Api+EfCore.dll
 F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\AspNet+Api+EfCore.pdb
 F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\AspNet+Api+EfCore.genruntimeconfig.cache
+F:\Balta\AspNet+Api+EfCore\obj\Debug\net6.0\AspNet+Api+EfCore.csproj.AssemblyReference.cache

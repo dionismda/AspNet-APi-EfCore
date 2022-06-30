@@ -7,6 +7,7 @@ using AspNet_Api_EfCore.ValueObjects;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace AspNet_Api_EfCore
 {
@@ -24,17 +25,14 @@ namespace AspNet_Api_EfCore
             JWTSettings jwtSettings = AppSettingsConfig.Configuration.GetSection("JWTSettings").Get<JWTSettings>();
             byte[] key = Encoding.ASCII.GetBytes(jwtSettings.JwtKey);
 
-            services.AddAuthentication(opt =>
-            {
+            services.AddAuthentication(opt => {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer(opt =>
-            {
+            }).AddJwtBearer(opt => {
                 opt.RequireHttpsMetadata = false;
                 opt.SaveToken = true;
-                opt.TokenValidationParameters = new TokenValidationParameters
-                {
+                opt.TokenValidationParameters = new TokenValidationParameters {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
@@ -43,10 +41,14 @@ namespace AspNet_Api_EfCore
             });
 
             services.AddControllers()
-                    .ConfigureApiBehaviorOptions(opt =>
-                    {
+                    .ConfigureApiBehaviorOptions(opt => {
                         opt.SuppressModelStateInvalidFilter = true;
+                    })
+                    .AddJsonOptions(opt => {
+                        opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                        opt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
                     });
+
             services.AddRepositories();
             services.AddHandlers();
             services.AddCustomFormat();
@@ -55,6 +57,7 @@ namespace AspNet_Api_EfCore
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
 
+            services.AddMemoryCache();
             services.AddDbContext<BlogDataContext>();
 
             services.AddAutoMapper(typeof(Startup));
