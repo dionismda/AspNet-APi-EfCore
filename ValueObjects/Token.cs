@@ -1,4 +1,4 @@
-﻿namespace AspNet_Api_EfCore.ValueObject
+﻿namespace AspNet_Api_EfCore.ValueObjects
 {
     public class Token
     {

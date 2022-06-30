@@ -2,8 +2,9 @@
 using AspNet_Api_EfCore.Features.CategoryFeatures.Commands;
 using AspNet_Api_EfCore.Features.CategoryFeatures.Queries;
 using AspNet_Api_EfCore.Handlers;
-using AspNet_Api_EfCore.ValueObject;
+using AspNet_Api_EfCore.ValueObjects;
 using AspNet_Api_EfCore.ViewModels;
+using AspNet_Api_EfCore.ViewModels.Categories;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

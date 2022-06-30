@@ -2,35 +2,42 @@
 using AspNet_Api_EfCore.Interfaces;
 using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.Repositories.Interfaces;
-using AspNet_Api_EfCore.ValueObject;
+using AspNet_Api_EfCore.Repositories.Queries;
+using AspNet_Api_EfCore.Services.Interfaces;
+using AspNet_Api_EfCore.ValueObjects;
 using Microsoft.AspNetCore.Identity;
+using System.Text.RegularExpressions;
 
 namespace AspNet_Api_EfCore.Handlers
 {
     public class AccountHandler :
         ICommandHandler<LoginAccountCommand, Token>,
-        ICommandHandler<CreateAccountCommand, User>
+        ICommandHandler<CreateAccountCommand, User>,
+        ICommandHandler<UploadImageAccountCommand, User>
     {
 
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly ITokenService _tokenService;
         private readonly IEmailService _emailService;
+        private readonly IAuthenticatedUserService _authenticatedUserService;
 
         public AccountHandler(IUserRepository userRepository,
                               IPasswordHasher<User> passwordHasher,
                               ITokenService tokenService,
-                              IEmailService emailService)
+                              IEmailService emailService,
+                              IAuthenticatedUserService authenticatedUserService)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
             _tokenService = tokenService;
             _emailService = emailService;
+            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<Token> Handle(LoginAccountCommand request)
         {
-            User? user = await _userRepository.GetUserRoles(request.Email);
+            User? user = await _userRepository.GetUserRolesByEmail(request.Email);
 
             if (user == null)
             {
@@ -65,6 +72,31 @@ namespace AspNet_Api_EfCore.Handlers
             _emailService.Send(user.Name, user.Email, "Bem vindo", "Bem vindo ao blog");
 
             return user;
+        }
+
+        public async Task<User> Handle(UploadImageAccountCommand request)
+        {
+            string fileName = $"{Guid.NewGuid().ToString()}.jpg";
+            string data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(request.Base64Image, "");
+            byte[] bytes = Convert.FromBase64String(data);
+
+            try
+            {
+                await System.IO.File.WriteAllBytesAsync($"wwwroot/images/{fileName}", bytes);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Falha interna no servidor");
+            }
+
+            User user = await _userRepository.GetUser(UserQueries.GetByEmail(_authenticatedUserService.Email));
+
+            if (user == null)
+                throw new Exception("Usuário não encontrado");
+
+            user.Image = $"https://localhost:0000/images/{fileName}";
+
+            return await _userRepository.Update(user);
         }
     }
 }

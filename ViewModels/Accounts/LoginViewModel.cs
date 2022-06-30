@@ -1,4 +1,4 @@
-﻿namespace AspNet_Api_EfCore.ViewModels
+﻿namespace AspNet_Api_EfCore.ViewModels.Accounts
 {
     public class LoginViewModel
     {

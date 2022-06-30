@@ -1,7 +1,9 @@
 ﻿using AspNet_Api_EfCore.Configurations;
 using AspNet_Api_EfCore.Data;
 using AspNet_Api_EfCore.Extensions;
-using AspNet_Api_EfCore.ValueObject;
+using AspNet_Api_EfCore.Services;
+using AspNet_Api_EfCore.Services.Interfaces;
+using AspNet_Api_EfCore.ValueObjects;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -31,7 +33,8 @@ namespace AspNet_Api_EfCore
             {
                 opt.RequireHttpsMetadata = false;
                 opt.SaveToken = true;
-                opt.TokenValidationParameters = new TokenValidationParameters {
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
@@ -40,13 +43,18 @@ namespace AspNet_Api_EfCore
             });
 
             services.AddControllers()
-                    .ConfigureApiBehaviorOptions(opt => {
+                    .ConfigureApiBehaviorOptions(opt =>
+                    {
                         opt.SuppressModelStateInvalidFilter = true;
                     });
             services.AddRepositories();
             services.AddHandlers();
             services.AddCustomFormat();
             services.AddServices();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
+
             services.AddDbContext<BlogDataContext>();
 
             services.AddAutoMapper(typeof(Startup));
@@ -69,6 +77,7 @@ namespace AspNet_Api_EfCore
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

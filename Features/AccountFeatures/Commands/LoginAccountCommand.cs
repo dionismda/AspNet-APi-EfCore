@@ -1,5 +1,5 @@
 ﻿using AspNet_Api_EfCore.Interfaces;
-using AspNet_Api_EfCore.ValueObject;
+using AspNet_Api_EfCore.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
 namespace AspNet_Api_EfCore.Features.AccountFeatures.Commands

@@ -1,6 +1,6 @@
-﻿namespace AspNet_Api_EfCore.ViewModels
+﻿namespace AspNet_Api_EfCore.ViewModels.Accounts
 {
-    public class AccountCreatedViewModel
+    public class AccountViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

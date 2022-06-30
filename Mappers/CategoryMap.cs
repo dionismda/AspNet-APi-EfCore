@@ -1,5 +1,5 @@
 ﻿using AspNet_Api_EfCore.Models;
-using AspNet_Api_EfCore.ViewModels;
+using AspNet_Api_EfCore.ViewModels.Categories;
 using AutoMapper;
 
 namespace AspNet_Api_EfCore.Mappers

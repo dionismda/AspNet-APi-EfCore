@@ -2,7 +2,8 @@
 using AspNet_Api_EfCore.Extensions;
 using AspNet_Api_EfCore.Interfaces;
 using AspNet_Api_EfCore.Models;
-using AspNet_Api_EfCore.ValueObject;
+using AspNet_Api_EfCore.Services.Interfaces;
+using AspNet_Api_EfCore.ValueObjects;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

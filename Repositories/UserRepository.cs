@@ -2,6 +2,7 @@
 using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace AspNet_Api_EfCore.Repositories
 {
@@ -11,7 +12,12 @@ namespace AspNet_Api_EfCore.Repositories
         {
         }
 
-        public async Task<User> GetUserRoles(string email)
+        public async Task<User> GetUser(Expression<Func<User, bool>> expression)
+        {
+            return await _context.Users.Where(expression).FirstOrDefaultAsync(expression);
+        }
+
+        public async Task<User> GetUserRolesByEmail(string email)
         {
             return await _context
                         .Users

@@ -1,5 +1,6 @@
 F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\appsettings.Development.json
 F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\appsettings.json
+F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\AspNet+Api+EfCore.staticwebassets.runtime.json
 F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\AspNet+Api+EfCore.exe
 F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\AspNet+Api+EfCore.deps.json
 F:\Balta\AspNet+Api+EfCore\bin\Debug\net6.0\AspNet+Api+EfCore.runtimeconfig.json

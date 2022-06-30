@@ -1,5 +1,5 @@
 ﻿using AspNet_Api_EfCore.Configurations;
-using AspNet_Api_EfCore.ValueObject;
+using AspNet_Api_EfCore.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

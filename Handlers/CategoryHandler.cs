@@ -3,7 +3,7 @@ using AspNet_Api_EfCore.Features.CategoryFeatures.Queries;
 using AspNet_Api_EfCore.Interfaces;
 using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.Repositories.Interfaces;
-using AspNet_Api_EfCore.ValueObject;
+using AspNet_Api_EfCore.ValueObjects;
 
 namespace AspNet_Api_EfCore.Handlers
 {

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace AspNet_Api_EfCore
+﻿namespace AspNet_Api_EfCore
 {
     public static class Configuration
     {

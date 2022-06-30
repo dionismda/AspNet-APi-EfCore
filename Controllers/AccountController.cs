@@ -1,8 +1,10 @@
 ﻿using AspNet_Api_EfCore.Extensions;
 using AspNet_Api_EfCore.Features.AccountFeatures.Commands;
 using AspNet_Api_EfCore.Handlers;
-using AspNet_Api_EfCore.ValueObject;
+using AspNet_Api_EfCore.Models;
+using AspNet_Api_EfCore.ValueObjects;
 using AspNet_Api_EfCore.ViewModels;
+using AspNet_Api_EfCore.ViewModels.Accounts;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,14 +32,14 @@ namespace AspNet_Api_EfCore.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<AccountCreatedViewModel>> Post([FromBody] CreateAccountCommand createAccountCommand)
+        public async Task<ActionResult<AccountViewModel>> Post([FromBody] CreateAccountCommand createAccountCommand)
         {
             if (!ModelState.IsValid)
-                return BadRequest(new ResultViewModel<AccountCreatedViewModel>(ModelState.GetErrors()));
+                return BadRequest(new ResultViewModel<AccountViewModel>(ModelState.GetErrors()));
 
-            AccountCreatedViewModel account = _mapper.Map<AccountCreatedViewModel>(await _handler.Handle(createAccountCommand));
+            AccountViewModel account = _mapper.Map<AccountViewModel>(await _handler.Handle(createAccountCommand));
 
-            return Ok(new ResultViewModel<AccountCreatedViewModel>(account));
+            return Ok(new ResultViewModel<AccountViewModel>(account));
         }
 
         [AllowAnonymous]
@@ -52,7 +54,17 @@ namespace AspNet_Api_EfCore.Controllers
             return Ok(new ResultViewModel<Token>(token));
         }
 
+        [Authorize]
+        [HttpPost("upload-image")]
+        public async Task<ActionResult<AccountViewModel>> UploadImage([FromBody] UploadImageAccountCommand uploadImageAccountCommand)
+        {
 
+            if (!ModelState.IsValid)
+                return BadRequest(new ResultViewModel<AccountViewModel>(ModelState.GetErrors()));
 
+            AccountViewModel account = _mapper.Map<AccountViewModel>(await _handler.Handle(uploadImageAccountCommand));
+
+            return Ok(new ResultViewModel<AccountViewModel>(account));
+        }
     }
 }

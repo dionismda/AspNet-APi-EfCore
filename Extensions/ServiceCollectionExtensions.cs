@@ -4,6 +4,7 @@ using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.Repositories;
 using AspNet_Api_EfCore.Repositories.Interfaces;
 using AspNet_Api_EfCore.Services;
+using AspNet_Api_EfCore.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace AspNet_Api_EfCore.Extensions

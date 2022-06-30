@@ -1,5 +1,5 @@
 ﻿using AspNet_Api_EfCore.Models;
-using AspNet_Api_EfCore.ViewModels;
+using AspNet_Api_EfCore.ViewModels.Accounts;
 using AutoMapper;
 
 namespace AspNet_Api_EfCore.Mappers
@@ -8,7 +8,7 @@ namespace AspNet_Api_EfCore.Mappers
     {
         public AccountMap()
         {
-            CreateMap<User, AccountCreatedViewModel>();
+            CreateMap<User, AccountViewModel>();
         }
 
     }

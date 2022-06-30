@@ -1,4 +1,6 @@
-﻿namespace AspNet_Api_EfCore.Interfaces
+﻿using System.Linq.Expressions;
+
+namespace AspNet_Api_EfCore.Interfaces
 {
     public interface IRepository<TModel> where TModel : class, IModel
     {
