@@ -1,4 +1,5 @@
 ﻿using AspNet_Api_EfCore.Handlers;
+using AspNet_Api_EfCore.Handlers.Interfaces;
 using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.Repositories;
 using AspNet_Api_EfCore.Repositories.Interfaces;
@@ -19,7 +20,7 @@ namespace AspNet_Api_EfCore.Extensions
 
         public static IServiceCollection AddHandlers(this IServiceCollection services)
         {
-            services.AddScoped<CategoryHandler>();
+            services.AddScoped<ICategoryHandler, CategoryHandler>();
             services.AddScoped<AccountHandler>();
             return services;
         }

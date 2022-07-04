@@ -2,6 +2,7 @@
 using AspNet_Api_EfCore.Features.CategoryFeatures.Commands;
 using AspNet_Api_EfCore.Features.CategoryFeatures.Queries;
 using AspNet_Api_EfCore.Handlers;
+using AspNet_Api_EfCore.Handlers.Interfaces;
 using AspNet_Api_EfCore.ValueObjects;
 using AspNet_Api_EfCore.ViewModels;
 using AspNet_Api_EfCore.ViewModels.Categories;
@@ -18,9 +19,9 @@ namespace AspNet_Api_EfCore.Controllers
     [Consumes("application/json")]
     public class CategoryController : ControllerBase
     {
-        private readonly CategoryHandler _categoryHandler;
+        private readonly ICategoryHandler _categoryHandler;
         private readonly IMapper _mapper;
-        public CategoryController(CategoryHandler categoryHandler, IMapper mapper)
+        public CategoryController(ICategoryHandler categoryHandler, IMapper mapper)
         {
             _categoryHandler = categoryHandler;
             _mapper = mapper;
