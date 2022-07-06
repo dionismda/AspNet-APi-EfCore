@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "5uECYw2x5WQ4DRMEpcmVsck3Dv5V7tLWKezfvIxc7CQns/5xbWoi3MQBjGJSRhZc12G29HXqdtjwJGssRnBCLw==",
+  "dgSpecHash": "ol2Z+6toNKKPOj6DbDxd4SiQMPKrd/yaPkv3p52fwVZdo39J2EyutD/CabM5fIeyx6ddGQzoPMbYKSx2DQLARg==",
   "success": true,
   "projectFilePath": "F:\\Balta\\AspNet+Api+EfCore\\AspNet+Api+EfCore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\programacao06\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\programacao06\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\programacao06\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\programacao06\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
+    "C:\\Users\\programacao06\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\programacao06\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\10.0.1\\mediatr.extensions.microsoft.dependencyinjection.10.0.1.nupkg.sha512",
     "C:\\Users\\programacao06\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\programacao06\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\programacao06\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",

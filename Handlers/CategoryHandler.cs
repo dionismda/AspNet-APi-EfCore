@@ -20,7 +20,7 @@ namespace AspNet_Api_EfCore.Handlers
             _memoryCache = memoryCache;
         }
 
-        public async override Task<IEnumerable<Category>> Handle(IGetAllQuery<Category> request)
+        public async override Task<IEnumerable<Category>> Handle(IGetAllQuery<Category> request, CancellationToken cancellationToken)
         {
             return await _memoryCache.GetOrCreateAsync<IEnumerable<Category>>("CategoriesCache", async entry =>
             {
@@ -29,12 +29,12 @@ namespace AspNet_Api_EfCore.Handlers
             });
         }
 
-        public async override Task<Category> Handle(IGetByIdQuery<Category> request)
+        public async override Task<Category> Handle(IGetByIdQuery<Category> request, CancellationToken cancellationToken)
         {
             return await _categoryRepository.GetById(request.Id);
         }
 
-        public async override Task<Category> Handle(IInsertCommand<Category> request)
+        public async override Task<Category> Handle(IInsertCommand<Category> request, CancellationToken cancellationToken)
         {
             CreateCategoryCommand command = (CreateCategoryCommand)request;
 
@@ -47,11 +47,11 @@ namespace AspNet_Api_EfCore.Handlers
             return await _categoryRepository.Add(category);
         }
 
-        public async override Task<Category> Handle(IRequestId id, IUpdateCommand<Category> request)
+        public async override Task<Category> Handle(IUpdateCommand<Category> request, CancellationToken cancellationToken)
         {
             UpdateCategoryCommand command = (UpdateCategoryCommand)request;
 
-            Category category = await _categoryRepository.GetById(id.Id);
+            Category category = await _categoryRepository.GetById(command.Id);
 
             if (category == null)
             {
@@ -64,7 +64,7 @@ namespace AspNet_Api_EfCore.Handlers
             return await _categoryRepository.Update(category);
         }
 
-        public async override Task<bool> Handle(IDeleteCommand request)
+        public async override Task<bool> Handle(IDeleteCommand request, CancellationToken cancellationToken)
         {
             Category category = await _categoryRepository.GetById(request.Id);
 

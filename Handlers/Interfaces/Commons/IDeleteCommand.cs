@@ -1,8 +1,8 @@
-﻿using AspNet_Api_EfCore.Interfaces;
+﻿using MediatR;
 
 namespace AspNet_Api_EfCore.Handlers.Interfaces.Commons
 {
-    public interface IDeleteCommand : ICommand<bool>
+    public interface IDeleteCommand : IRequest<bool>
     {
         public int Id { get; set; }
     }

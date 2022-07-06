@@ -7,7 +7,13 @@ namespace AspNet_Api_EfCore.Features.CategoryFeatures.Commands
     public class CreateCategoryCommand : IInsertCommand<Category>
     {
         [Required]
-        public string Name { get; set; }
-        public string Slug { get; set; }
+        public string Name { get; private set; }
+        public string Slug { get; private set; }
+
+        public CreateCategoryCommand(string name, string slug)
+        {
+            Name = name;
+            Slug = slug;
+        }
     }
 }

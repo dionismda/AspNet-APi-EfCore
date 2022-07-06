@@ -5,15 +5,16 @@ using AspNet_Api_EfCore.Repositories.Interfaces;
 using AspNet_Api_EfCore.Repositories.Queries;
 using AspNet_Api_EfCore.Services.Interfaces;
 using AspNet_Api_EfCore.ValueObjects;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Text.RegularExpressions;
 
 namespace AspNet_Api_EfCore.Handlers
 {
     public class AccountHandler :
-        ICommandHandler<LoginAccountCommand, Token>,
-        ICommandHandler<CreateAccountCommand, User>,
-        ICommandHandler<UploadImageAccountCommand, User>
+        IRequestHandler<LoginAccountCommand, Token>,
+        IRequestHandler<CreateAccountCommand, User>,
+        IRequestHandler<UploadImageAccountCommand, User>
     {
 
         private readonly IUserRepository _userRepository;
@@ -35,7 +36,7 @@ namespace AspNet_Api_EfCore.Handlers
             _authenticatedUserService = authenticatedUserService;
         }
 
-        public async Task<Token> Handle(LoginAccountCommand request)
+        public async Task<Token> Handle(LoginAccountCommand request, CancellationToken cancellationToken)
         {
             User? user = await _userRepository.GetUserRolesByEmail(request.Email);
 
@@ -55,7 +56,7 @@ namespace AspNet_Api_EfCore.Handlers
             };
         }
 
-        public async Task<User> Handle(CreateAccountCommand request)
+        public async Task<User> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             User newUser = new User
             {
@@ -74,7 +75,7 @@ namespace AspNet_Api_EfCore.Handlers
             return user;
         }
 
-        public async Task<User> Handle(UploadImageAccountCommand request)
+        public async Task<User> Handle(UploadImageAccountCommand request, CancellationToken cancellationToken)
         {
             string fileName = $"{Guid.NewGuid().ToString()}.jpg";
             string data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(request.Base64Image, "");

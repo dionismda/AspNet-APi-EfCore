@@ -4,6 +4,7 @@ using AspNet_Api_EfCore.Extensions;
 using AspNet_Api_EfCore.Services;
 using AspNet_Api_EfCore.Services.Interfaces;
 using AspNet_Api_EfCore.ValueObjects;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -83,6 +84,7 @@ namespace AspNet_Api_EfCore
             });
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddMediatR(typeof(Startup));
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(opt =>

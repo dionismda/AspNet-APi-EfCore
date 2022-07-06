@@ -1,10 +1,10 @@
-﻿using AspNet_Api_EfCore.Interfaces;
-using AspNet_Api_EfCore.ValueObjects;
+﻿using AspNet_Api_EfCore.ValueObjects;
+using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace AspNet_Api_EfCore.Features.AccountFeatures.Commands
 {
-    public class LoginAccountCommand : ICommand<Token>
+    public class LoginAccountCommand : IRequest<Token>
     {
         [Required]
         [EmailAddress]
