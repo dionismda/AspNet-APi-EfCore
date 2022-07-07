@@ -1,5 +1,6 @@
 ﻿using AspNet_Api_EfCore.Extensions;
 using AspNet_Api_EfCore.Interfaces;
+using AspNet_Api_EfCore.Services.Interfaces;
 using AspNet_Api_EfCore.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,12 @@ namespace AspNet_Api_EfCore.Repositories
         where TContext : DbContext
     {
         protected readonly TContext _context;
+        private readonly IUriServices _uriServices;
 
-        public BaseRepository(TContext context)
+        public BaseRepository(TContext context, IUriServices uriServices)
         {
             _context = context;
+            _uriServices = uriServices;
         }
 
         public async Task<TModel> Add(TModel entity)
@@ -43,7 +46,7 @@ namespace AspNet_Api_EfCore.Repositories
 
         public async Task<IPagination<TModel>> GetPaginationAsync(PaginationRequest request, CancellationToken cancellationToken)
         {
-            return await _context.Set<TModel>().PaginationAsync(request, cancellationToken);
+            return await _context.Set<TModel>().PaginationAsync(request, _uriServices, cancellationToken);
         }
 
         public async Task<TModel> Update(TModel entity)

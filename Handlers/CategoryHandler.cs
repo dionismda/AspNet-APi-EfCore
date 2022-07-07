@@ -45,7 +45,7 @@ namespace AspNet_Api_EfCore.Handlers
 
         public async override Task<IResultViewModel<Category>> Handle(IGetByIdQuery<Category> request, CancellationToken cancellationToken)
         {
-            var category =  await _categoryRepository.GetById(request.Id);
+            var category = await _categoryRepository.GetById(request.Id);
 
             return new ResultViewModel<Category>("getbyid", "getbyid", category);
         }

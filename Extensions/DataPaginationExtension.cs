@@ -1,4 +1,6 @@
 ﻿using AspNet_Api_EfCore.Interfaces;
+using AspNet_Api_EfCore.Services;
+using AspNet_Api_EfCore.Services.Interfaces;
 using AspNet_Api_EfCore.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +8,7 @@ namespace AspNet_Api_EfCore.Extensions
 {
     public static class DataPaginationExtension
     {
-        public static async Task<Pagination<TModel>> PaginationAsync<TModel>(this IQueryable<TModel> query, PaginationRequest config, CancellationToken cancellationToken)
+        public static async Task<Pagination<TModel>> PaginationAsync<TModel>(this IQueryable<TModel> query, PaginationRequest config, IUriServices uriServices, CancellationToken cancellationToken)
             where TModel : IModel
         {
 
@@ -24,7 +26,14 @@ namespace AspNet_Api_EfCore.Extensions
 
             var paginationParams = new PaginationParams(currentLimit, currentPage, totalItems, totalPages);
 
-            return new Pagination<TModel>(paginationParams, items);
+            var links = new List<Uri>();
+            
+            for(var i = 1; i <= totalPages; i++)
+            {
+                links.Add(uriServices.GetPageUri(i, currentLimit));
+            }            
+
+            return new Pagination<TModel>(paginationParams, items, links);
         }
     }
 }
