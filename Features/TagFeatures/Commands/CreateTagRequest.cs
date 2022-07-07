@@ -1,10 +1,9 @@
 ﻿using AspNet_Api_EfCore.Interfaces;
 
-namespace AspNet_Api_EfCore.ViewModels.Categories
+namespace AspNet_Api_EfCore.Features.TagFeatures.Commands
 {
-    public class CategoryViewModel : IViewModel
+    public class CreateTagRequest : ICreateTagRequest
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Slug { get; set; }
     }

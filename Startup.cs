@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IO.Compression;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace AspNet_Api_EfCore
@@ -57,6 +58,10 @@ namespace AspNet_Api_EfCore
                     {
                         opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                         opt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+                        opt.JsonSerializerOptions.WriteIndented = true;
+                        opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                        opt.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                     });
 
             services.AddRepositories();
@@ -84,6 +89,7 @@ namespace AspNet_Api_EfCore
             });
 
             services.AddAutoMapper(typeof(Startup));
+
             services.AddMediatR(typeof(Startup));
 
             services.AddEndpointsApiExplorer();

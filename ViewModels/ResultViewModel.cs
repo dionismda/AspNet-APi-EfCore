@@ -1,29 +1,19 @@
-﻿namespace AspNet_Api_EfCore.ViewModels
+﻿using AspNet_Api_EfCore.Interfaces;
+
+namespace AspNet_Api_EfCore.ViewModels
 {
-    public class ResultViewModel<TResult>
+    public class ResultViewModel<TObject> : IResultViewModel<TObject>
     {
-        public ResultViewModel(TResult data, List<string> errors)
+        public ResultViewModel(string type, string message, object result)
         {
-            Data = data;
-            Errors = errors;
+            Type = type;
+            Message = message;
+            Result = result;
         }
 
-        public ResultViewModel(TResult data)
-        {
-            Data = data;
-        }
-
-        public ResultViewModel(List<string> errors)
-        {
-            Errors = errors;
-        }
-
-        public ResultViewModel(string error)
-        {
-            Errors.Add(error);
-        }
-
-        public TResult Data { get; private set; }
-        public List<string> Errors { get; private set; } = new();
+        public string Type { get; private set; }
+        public string Message { get; private set; }
+        public object Result { get; private set; }
     }
+
 }

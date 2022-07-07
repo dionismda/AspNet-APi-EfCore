@@ -1,10 +1,8 @@
-﻿using AspNet_Api_EfCore.Extensions;
-using AspNet_Api_EfCore.Features.CategoryFeatures.Commands;
+﻿using AspNet_Api_EfCore.Features.CategoryFeatures.Commands;
 using AspNet_Api_EfCore.Features.CategoryFeatures.Queries;
-using AspNet_Api_EfCore.Handlers.Interfaces;
+using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.ValueObjects;
 using AspNet_Api_EfCore.ViewModels;
-using AspNet_Api_EfCore.ViewModels.Categories;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -28,39 +26,29 @@ namespace AspNet_Api_EfCore.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryViewModel>>> Get([FromQuery] GetAllCategoryQuery getAllCategory)
+        public async Task<ActionResult<ResultViewModel<Pagination<Category>>>> Get([FromQuery] GetAllCategoryQuery getAllCategory)
         {
-            IEnumerable<CategoryViewModel> categories = _mapper.Map<IEnumerable<CategoryViewModel>>(await _mediator.Send(getAllCategory));
-            return Ok(new ResultViewModel<IEnumerable<CategoryViewModel>>(categories));
+            return Ok(await _mediator.Send(getAllCategory));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<CategoryViewModel>> GetById([FromRoute] GetCategoryQuery getCategory)
+        public async Task<ActionResult<ResultViewModel<Category>>> GetById([FromRoute] GetCategoryQuery getCategory)
         {
-            CategoryViewModel category = _mapper.Map<CategoryViewModel>(await _mediator.Send(getCategory));
-            return Ok(new ResultViewModel<CategoryViewModel>(category));
+            return Ok(await _mediator.Send(getCategory));
         }
 
         [HttpPost]
-        public async Task<ActionResult<CategoryViewModel>> Post([FromBody] CreateCategoryCommand createCategoryCommand)
+        public async Task<ActionResult<ResultViewModel<Category>>> Post([FromBody] CreateCategoryCommand createCategoryCommand)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(new ResultViewModel<CategoryViewModel>(ModelState.GetErrors()));
-
-            CategoryViewModel category = _mapper.Map<CategoryViewModel>(await _mediator.Send(createCategoryCommand));
-            return Ok(new ResultViewModel<CategoryViewModel>(category));
+            return Ok(await _mediator.Send(createCategoryCommand));
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<CategoryViewModel>> Put([FromRoute] int id, [FromBody] UpdateCategoryCommand updateCategoryCommand)
+        public async Task<ActionResult<ResultViewModel<Category>>> Put([FromRoute] int id, [FromBody] UpdateCategoryCommand updateCategoryCommand)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(new ResultViewModel<CategoryViewModel>(ModelState.GetErrors()));
-
             updateCategoryCommand.Id = id;
 
-            CategoryViewModel category = _mapper.Map<CategoryViewModel>(await _mediator.Send(updateCategoryCommand));
-            return Ok(new ResultViewModel<CategoryViewModel>(category));
+            return Ok(await _mediator.Send(updateCategoryCommand));
         }
 
         [HttpDelete("{id:int}")]

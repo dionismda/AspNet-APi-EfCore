@@ -6,7 +6,7 @@ namespace AspNet_Api_EfCore.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        [HttpGet("HealfCheck")]
+        [HttpGet("HealthCheck")]
         [ApiKey]
         public IActionResult Get()
         {

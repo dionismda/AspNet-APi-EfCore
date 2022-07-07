@@ -1,9 +1,12 @@
 ﻿using AspNet_Api_EfCore.Features.CategoryFeatures.Commands;
+using AspNet_Api_EfCore.Features.CategoryFeatures.Queries;
 using AspNet_Api_EfCore.Handlers.Interfaces;
 using AspNet_Api_EfCore.Handlers.Interfaces.Commons;
 using AspNet_Api_EfCore.Interfaces;
 using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.Repositories.Interfaces;
+using AspNet_Api_EfCore.ValueObjects;
+using AspNet_Api_EfCore.ViewModels;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace AspNet_Api_EfCore.Handlers
@@ -20,21 +23,35 @@ namespace AspNet_Api_EfCore.Handlers
             _memoryCache = memoryCache;
         }
 
-        public async override Task<IEnumerable<Category>> Handle(IGetAllQuery<Category> request, CancellationToken cancellationToken)
+        //public async override Task<IEnumerable<Category>> Handle(IGetAllQuery<Category> request, CancellationToken cancellationToken)
+        //{
+        //    return await _memoryCache.GetOrCreateAsync<IEnumerable<Category>>("CategoriesCache", async entry =>
+        //    {
+        //        entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+        //        return await _categoryRepository.GetAll();
+        //    });
+        //}
+
+        public async override Task<IResultViewModel<IPagination<Category>>> Handle(IGetAllQuery<Category> request, CancellationToken cancellationToken)
         {
-            return await _memoryCache.GetOrCreateAsync<IEnumerable<Category>>("CategoriesCache", async entry =>
-            {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
-                return await _categoryRepository.GetAll();
-            });
+            GetAllCategoryQuery command = (GetAllCategoryQuery)request;
+
+            var config = new PaginationRequest(command?.page, command?.limit);
+
+            var categories = await _categoryRepository.GetPaginationAsync(config, cancellationToken);
+
+            return new ResultViewModel<IPagination<Category>>("getall", "getall", categories);
         }
 
-        public async override Task<Category> Handle(IGetByIdQuery<Category> request, CancellationToken cancellationToken)
+        public async override Task<IResultViewModel<Category>> Handle(IGetByIdQuery<Category> request, CancellationToken cancellationToken)
         {
-            return await _categoryRepository.GetById(request.Id);
+            var category =  await _categoryRepository.GetById(request.Id);
+
+            return new ResultViewModel<Category>("getbyid", "getbyid", category);
         }
 
-        public async override Task<Category> Handle(IInsertCommand<Category> request, CancellationToken cancellationToken)
+
+        public async override Task<IResultViewModel<Category>> Handle(IInsertCommand<Category> request, CancellationToken cancellationToken)
         {
             CreateCategoryCommand command = (CreateCategoryCommand)request;
 
@@ -44,10 +61,12 @@ namespace AspNet_Api_EfCore.Handlers
                 Slug = command.Slug,
             };
 
-            return await _categoryRepository.Add(category);
+            var newCategory = await _categoryRepository.Add(category);
+
+            return new ResultViewModel<Category>("getbyid", "getbyid", newCategory);
         }
 
-        public async override Task<Category> Handle(IUpdateCommand<Category> request, CancellationToken cancellationToken)
+        public async override Task<IResultViewModel<Category>> Handle(IUpdateCommand<Category> request, CancellationToken cancellationToken)
         {
             UpdateCategoryCommand command = (UpdateCategoryCommand)request;
 
@@ -55,13 +74,15 @@ namespace AspNet_Api_EfCore.Handlers
 
             if (category == null)
             {
-                throw new Exception("Categoria não encontrada");
+                return new ResultViewModel<Category>("warning", "category not found", command);
             }
 
             category.Name = command.Name;
             category.Slug = command.Slug;
 
-            return await _categoryRepository.Update(category);
+            var newCategory = await _categoryRepository.Update(category);
+
+            return new ResultViewModel<Category>("getbyid", "getbyid", newCategory);
         }
 
         public async override Task<bool> Handle(IDeleteCommand request, CancellationToken cancellationToken)
@@ -75,5 +96,6 @@ namespace AspNet_Api_EfCore.Handlers
 
             return await _categoryRepository.Delete(category);
         }
+
     }
 }

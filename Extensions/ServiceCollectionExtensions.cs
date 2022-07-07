@@ -1,10 +1,14 @@
-﻿using AspNet_Api_EfCore.Handlers;
-using AspNet_Api_EfCore.Handlers.Interfaces;
+﻿using AspNet_Api_EfCore.Features.CategoryFeatures.Commands;
+using AspNet_Api_EfCore.Features.CategoryFeatures.Queries;
+using AspNet_Api_EfCore.Handlers;
+using AspNet_Api_EfCore.Interfaces;
 using AspNet_Api_EfCore.Models;
 using AspNet_Api_EfCore.Repositories;
 using AspNet_Api_EfCore.Repositories.Interfaces;
 using AspNet_Api_EfCore.Services;
 using AspNet_Api_EfCore.Services.Interfaces;
+using AspNet_Api_EfCore.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace AspNet_Api_EfCore.Extensions
@@ -20,8 +24,13 @@ namespace AspNet_Api_EfCore.Extensions
 
         public static IServiceCollection AddHandlers(this IServiceCollection services)
         {
-            services.AddScoped<ICategoryHandler, CategoryHandler>();
-            services.AddScoped<AccountHandler>();
+
+            services.AddScoped<IRequestHandler<GetAllCategoryQuery, IResultViewModel<IPagination<Category>>>, CategoryHandler>();
+            services.AddScoped<IRequestHandler<GetCategoryQuery, IResultViewModel<Category>>, CategoryHandler>();
+            services.AddScoped<IRequestHandler<CreateCategoryCommand, IResultViewModel<Category>>, CategoryHandler>();
+            services.AddScoped<IRequestHandler<UpdateCategoryCommand, IResultViewModel<Category>>, CategoryHandler>();
+            services.AddScoped<IRequestHandler<DeleteCategoryCommand, bool>, CategoryHandler>();
+
             return services;
         }
 

@@ -1,4 +1,6 @@
-﻿using AspNet_Api_EfCore.Interfaces;
+﻿using AspNet_Api_EfCore.Extensions;
+using AspNet_Api_EfCore.Interfaces;
+using AspNet_Api_EfCore.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNet_Api_EfCore.Repositories
@@ -37,6 +39,11 @@ namespace AspNet_Api_EfCore.Repositories
         public async Task<TModel> GetById(int id)
         {
             return await _context.Set<TModel>().Where(p => p.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IPagination<TModel>> GetPaginationAsync(PaginationRequest request, CancellationToken cancellationToken)
+        {
+            return await _context.Set<TModel>().PaginationAsync(request, cancellationToken);
         }
 
         public async Task<TModel> Update(TModel entity)
