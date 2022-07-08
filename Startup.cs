@@ -55,7 +55,7 @@ namespace AspNet_Api_EfCore
             {
                 var accessor = o.GetRequiredService<IHttpContextAccessor>();
                 var request = accessor.HttpContext.Request;
-                var route = accessor.HttpContext.Request.Path;
+                var route = request.Path;
                 var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
                 return new UriServices(uri, route);
             });
